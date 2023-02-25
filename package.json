@@ -1,0 +1,8 @@
+{
+  "name": "nextjs-remix",
+  "workspaces": [
+    "nextjs",
+    "remix",
+    "shared"
+  ]
+}

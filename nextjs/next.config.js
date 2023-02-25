@@ -2,7 +2,16 @@
 const nextConfig = {
   experimental: {
     appDir: true,
+    swcPlugins: [
+      [
+        "next-superjson-plugin",
+        {
+          excluded: [],
+        },
+      ],
+    ],
   },
-}
+  transpilePackages: ["shared"],
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
