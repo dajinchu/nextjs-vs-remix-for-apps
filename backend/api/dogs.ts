@@ -1,4 +1,4 @@
-import { getDogs } from "@/../shared";
+import { getDogs } from "../db/db";
 import { z } from "zod";
 import type { VercelRequest, VercelResponse } from "@vercel/node";
 

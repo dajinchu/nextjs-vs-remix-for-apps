@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { range } from "lodash";
-import images from "../shared/dog.json";
+import images from "./dog.json";
 
 export interface Dog {
   id: number;
