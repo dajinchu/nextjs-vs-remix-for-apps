@@ -4,7 +4,12 @@ import "../styles/globals.css";
 import { useState } from "react";
 
 export default function MyApp({ Component, pageProps }: AppProps) {
-  const [queryClient] = useState(() => new QueryClient());
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: { queries: { refetchOnMount: false } },
+      })
+  );
 
   return (
     <QueryClientProvider client={queryClient}>

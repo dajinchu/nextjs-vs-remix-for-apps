@@ -7,13 +7,8 @@ import { Dog, DogItem } from "shared";
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const queryClient = new QueryClient();
 
-  await queryClient.prefetchInfiniteQuery<Dog[]>(
-    "infinite-scroll-dogs",
-    () => backend.getDogs(0),
-    {
-      getNextPageParam: (lastPage) =>
-        lastPage.length === 10 && lastPage.at(-1)!.id + 1,
-    }
+  await queryClient.prefetchInfiniteQuery<Dog[]>("infinite-scroll-dogs", () =>
+    backend.getDogs(0)
   );
 
   return {
@@ -31,7 +26,7 @@ export default function InfiniteScrollPage() {
     data: dogs,
   } = useInfiniteQuery<Dog[]>(
     "infinite-scroll-dogs",
-    ({ pageParam = 1 }) =>
+    ({ pageParam }) =>
       fetch(`/api/infinite-scroll?offset=${pageParam || 0}`).then((r) =>
         r.json()
       ),
