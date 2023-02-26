@@ -4,3 +4,9 @@ export interface Dog {
   breed: string;
   image: string;
 }
+
+export interface Owner {
+  id: number;
+  name: string;
+  job: string;
+}
