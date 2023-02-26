@@ -1,10 +1,11 @@
 import { LoaderArgs } from "@remix-run/node";
 import { useFetcher, useLoaderData } from "@remix-run/react";
-import { DogItem, getDogs } from "shared";
+import { DogItem } from "shared";
 import { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroller";
 import { getParamsOrFail } from "remix-params-helper";
 import { z } from "zod";
+import { backend } from "~/backend.server";
 
 const ParamsSchema = z.object({
   offset: z.number().optional(),
@@ -18,7 +19,7 @@ On downside of this approach is that if you visit /infinite-scroll?page=22 direc
 export const loader = async ({ request, params }: LoaderArgs) => {
   const url = new URL(request.url);
   const result = getParamsOrFail(url.searchParams, ParamsSchema);
-  return await getDogs(result.offset || 0, 10);
+  return await backend.getDogs(result.offset || 0);
 };
 
 export default function InfiniteScrollPage() {
@@ -33,15 +34,17 @@ export default function InfiniteScrollPage() {
       setDogs((d) => [...d, ...data]);
       setHasMore(data.length === 10);
     }
-  }, [fetcher.data]);
+  }, [fetcher]);
 
   return (
     <div className="max-w-[500px] mx-auto mt-8">
       <h1>Dogs</h1>
       <InfiniteScroll
-        hasMore={fetcher.state === "idle" && hasMore}
+        initialLoad={false}
+        hasMore={hasMore}
         loadMore={() => {
-          fetcher.load(`/infinite-scroll?offset=${offset}`);
+          fetcher.state === "idle" &&
+            fetcher.load(`/infinite-scroll?offset=${offset}`);
         }}
         loader={<div>loading</div>}
         className="rounded-xl border border-solid border-gray-300 divide-y "

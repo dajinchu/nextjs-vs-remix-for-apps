@@ -1,4 +1,4 @@
-[
+export const images = [
   "https://images.dog.ceo/breeds/kelpie/n02105412_7843.jpg",
   "https://images.dog.ceo/breeds/terrier-lakeland/n02095570_4171.jpg",
   "https://images.dog.ceo/breeds/husky/n02110185_13282.jpg",
@@ -98,5 +98,5 @@
   "https://images.dog.ceo/breeds/eskimo/n02109961_1351.jpg",
   "https://images.dog.ceo/breeds/terrier-welsh/lucy.jpg",
   "https://images.dog.ceo/breeds/rottweiler/n02106550_6599.jpg",
-  "https://images.dog.ceo/breeds/terrier-russell/little1.jpg"
-]
+  "https://images.dog.ceo/breeds/terrier-russell/little1.jpg",
+];

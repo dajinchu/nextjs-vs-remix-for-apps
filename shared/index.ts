@@ -1,2 +1,3 @@
 export { DogItem } from "./DogItem";
-export { type Dog, getDogs } from "../backend/db/db";
+export { BackendAPIClient } from "./api-client";
+export type { Dog } from "./types";

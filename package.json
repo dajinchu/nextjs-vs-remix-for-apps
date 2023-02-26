@@ -3,6 +3,7 @@
   "workspaces": [
     "nextjs",
     "remix",
-    "shared"
+    "shared",
+    "backend"
   ]
 }

@@ -1,13 +1,7 @@
 import { faker } from "@faker-js/faker";
 import { range } from "lodash";
-import images from "./dog.json";
-
-export interface Dog {
-  id: number;
-  name: string;
-  breed: string;
-  image: string;
-}
+import { Dog } from "shared/types";
+import { images } from "./dog";
 
 function breedFromUrl(url: string): string {
   return url.split("/")[4].split("-").reverse().join(" ");
