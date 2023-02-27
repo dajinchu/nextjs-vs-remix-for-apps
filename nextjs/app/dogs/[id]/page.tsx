@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { DogItem } from "@/components/DogItem";
 import { backend } from "@/lib/backend";
 import { notFound } from "next/navigation";
@@ -24,7 +25,13 @@ export default async function Page({
 
   return (
     <div className="flex flex-col items-center">
-      <img src={dog.image} className="h-36 w-36 rounded-full object-cover" />
+      <Image
+        src={dog.image}
+        alt={dog.name}
+        width={4 * 36}
+        height={4 * 36}
+        className="h-36 w-36 rounded-full object-cover"
+      />
       <h1 className="text-xl font-bold">{dog.name}</h1>
       <div>{`Owner: ${owner.name} (${owner.job})`}</div>
       <br />
