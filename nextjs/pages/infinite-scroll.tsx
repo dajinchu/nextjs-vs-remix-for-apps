@@ -4,6 +4,7 @@ import { GetServerSideProps } from "next";
 import InfiniteScroll from "react-infinite-scroller";
 import { DogItem } from "@/components/DogItem";
 import { NumberParam, useQueryParam } from "use-query-params";
+import Image from "next/image";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const trpc = createPrefetcher();
@@ -73,7 +74,10 @@ export default function InfiniteScrollPage() {
 }
 
 function DoggyDetail({ id }: { id: number }) {
-  const details = trpc.dogs.details.useQuery({ id }, { keepPreviousData: true })
+  const details = trpc.dogs.details.useQuery(
+    { id },
+    { keepPreviousData: true }
+  );
 
   if (!details.isSuccess) {
     return null;
@@ -81,7 +85,13 @@ function DoggyDetail({ id }: { id: number }) {
   const { dog, owner, ownerDogs } = details.data;
   return (
     <div className="flex flex-col items-center">
-      <img src={dog.image} className="h-36 w-36 rounded-full object-cover" />
+      <Image
+        src={dog.image}
+        alt={dog.name}
+        width={4 * 36}
+        height={4 * 36}
+        className="h-36 w-36 rounded-full object-cover"
+      />
       <h1 className="text-xl font-bold">{dog.name}</h1>
       <div>{`Owner: ${owner.name} (${owner.job})`}</div>
       <br />
