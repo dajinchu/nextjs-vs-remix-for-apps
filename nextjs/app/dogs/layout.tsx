@@ -1,4 +1,4 @@
-import { DogItem } from "@/../shared";
+import { DogItem } from "@/components/DogItem";
 import { backend } from "@/lib/backend";
 import DogLink from "./DogLink";
 

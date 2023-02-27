@@ -2,7 +2,7 @@ import { createPrefetcher } from "@/utils/ssr";
 import { trpc } from "@/utils/trpc";
 import { GetServerSideProps } from "next";
 import InfiniteScroll from "react-infinite-scroller";
-import { DogItem } from "shared";
+import { DogItem } from "@/components/DogItem";
 import { NumberParam, useQueryParam } from "use-query-params";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {

@@ -11,6 +11,9 @@ const nextConfig = {
       ],
     ],
   },
+  images: {
+    domains: ["images.dog.ceo"],
+  },
   transpilePackages: ["shared"],
 };
 
