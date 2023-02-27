@@ -11,7 +11,7 @@ export async function getDogs(
   limit: number,
   { ownerId }: { ownerId?: number }
 ): Promise<Dog[]> {
-  const dogs = ownerId
+  const dogs = typeof ownerId !== 'undefined'
     ? data.dogs.filter((dog) => dog.ownerId === ownerId)
     : data.dogs;
   return Promise.resolve(

@@ -2,17 +2,14 @@ import { createPrefetcher } from "@/utils/ssr";
 import { trpc } from "@/utils/trpc";
 import { GetServerSideProps } from "next";
 import InfiniteScroll from "react-infinite-scroller";
-import { Dog, DogItem } from "shared";
-import { NumberParam, useQueryParam, withDefault } from "use-query-params";
+import { DogItem } from "shared";
+import { NumberParam, useQueryParam } from "use-query-params";
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const trpc = createPrefetcher();
   await trpc.dogs.all.prefetchInfinite({});
   if (typeof context.query.selected === "string") {
-    const dog = await trpc.dogs.details.fetch({
-      id: parseInt(context.query.selected),
-    });
-    await trpc.dogs.byOwner.prefetch({ ownerId: dog.owner.id });
+    await trpc.dogs.details.prefetch({ id: parseInt(context.query.selected) });
   }
   return {
     props: {
@@ -65,7 +62,7 @@ export default function InfiniteScrollPage() {
         </div>
         <div className="grow p-3">
           {selectedDog ? (
-            <DoggyDetail selected={selectedDog} />
+            <DoggyDetail id={selectedDog.id} />
           ) : (
             <h1>Select a dog to learn more</h1>
           )}
@@ -75,16 +72,13 @@ export default function InfiniteScrollPage() {
   );
 }
 
-function DoggyDetail({ selected }: { selected: Dog }) {
-  const [details, otherDogs] = trpc.useQueries((t) => [
-    t.dogs.details({ id: selected.id }, { keepPreviousData: true }),
-    t.dogs.byOwner({ ownerId: selected.ownerId }, { keepPreviousData: true }),
-  ]);
+function DoggyDetail({ id }: { id: number }) {
+  const details = trpc.dogs.details.useQuery({ id }, { keepPreviousData: true })
 
-  if (!details.isSuccess || !otherDogs.isSuccess) {
+  if (!details.isSuccess) {
     return null;
   }
-  const { dog, owner } = details.data;
+  const { dog, owner, ownerDogs } = details.data;
   return (
     <div className="flex flex-col items-center">
       <img src={dog.image} className="h-36 w-36 rounded-full object-cover" />
@@ -93,7 +87,7 @@ function DoggyDetail({ selected }: { selected: Dog }) {
       <br />
       <div className="text-xl font-medium">{owner.name}'s Pets</div>
       <div className="rounded-xl border border-solid border-gray-300 divide-y overflow-auto">
-        {otherDogs.data.dogs.map((dog) => (
+        {ownerDogs.map((dog) => (
           <DogItem key={dog.id} dog={dog} />
         ))}
       </div>

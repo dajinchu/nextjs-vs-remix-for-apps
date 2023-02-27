@@ -22,18 +22,6 @@ export const dogRouter = router({
         nextCursor: dogs.length > 0 ? dogs.at(-1)!.id + 1 : undefined,
       };
     }),
-  byOwner: procedure
-    .input(
-      z.object({
-        ownerId: z.number()
-      })
-    )
-    .query(async ({ input }) => {
-      const dogs = await backend.getDogs(0, {ownerId: input.ownerId});
-      return {
-        dogs,
-      };
-    }),
   details: procedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input }) => {
@@ -42,6 +30,7 @@ export const dogRouter = router({
         throw new TRPCError({ code: "NOT_FOUND" });
       }
       const owner = await backend.getOwner(dog.ownerId);
-      return { dog, owner };
+      const ownerDogs = await backend.getDogs(0, {ownerId: dog.ownerId});
+      return { dog, owner, ownerDogs };
     }),
 });

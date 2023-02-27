@@ -14,13 +14,11 @@ app.use(morgan('combined'))
 app.get("/api/dogs", async (req, res) => {
   const schema = z.object({
     offset: z
-      .string()
-      .default("0")
-      .transform((s) => parseInt(s)),
+      .coerce.number()
+      .default(0),
     ownerId: z
-      .string()
+      .coerce.number()
       .optional()
-      .transform((s) => (s ? parseInt(s) : undefined)),
   });
   const query = schema.parse(req.query);
   res
@@ -30,7 +28,7 @@ app.get("/api/dogs", async (req, res) => {
 
 app.get("/api/dogs/:id", async (req, res) => {
   const schema = z.object({
-    id: z.string().transform((s) => parseInt(s)),
+    id: z.coerce.number()
   });
   const params = schema.parse(req.params);
   res.status(200).json(await getDog(params.id));
@@ -38,7 +36,7 @@ app.get("/api/dogs/:id", async (req, res) => {
 
 app.get("/api/owner/:id", async (req, res) => {
   const schema = z.object({
-    id: z.string().transform((s) => parseInt(s)),
+    id: z.coerce.number()
   });
   const params = schema.parse(req.params);
   res.status(200).json(await getOwner(params.id));
@@ -46,7 +44,7 @@ app.get("/api/owner/:id", async (req, res) => {
 
 app.get("/api/owner/bulk", async (req, res) => {
   const schema = z.object({
-    ids: z.array(z.string().transform((s) => parseInt(s))),
+    ids: z.array(z.coerce.number())
   });
   const params = schema.parse(req.params);
   res.status(200).json(await getOwners(params.ids));
