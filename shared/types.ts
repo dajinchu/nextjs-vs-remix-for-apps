@@ -3,6 +3,7 @@ export interface Dog {
   name: string;
   breed: string;
   image: string;
+  ownerId: number;
 }
 
 export interface Owner {

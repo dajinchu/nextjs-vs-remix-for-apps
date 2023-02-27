@@ -19,7 +19,7 @@ On downside of this approach is that if you visit /infinite-scroll?page=22 direc
 export const loader = async ({ request, params }: LoaderArgs) => {
   const url = new URL(request.url);
   const result = getParamsOrFail(url.searchParams, ParamsSchema);
-  return await backend.getDogs(result.offset || 0);
+  return await backend.getDogs(result.offset || 0, {});
 };
 
 export default function InfiniteScrollPage() {

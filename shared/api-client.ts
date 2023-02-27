@@ -8,11 +8,23 @@ export class BackendAPIClient {
   constructor(host: string) {
     this.host = host;
   }
-  async getDogs(offset: number): Promise<Dog[]> {
+  async getDogs(
+    offset: number,
+    { ownerId }: { ownerId?: number }
+  ): Promise<Dog[]> {
     return fetch(
       `${this.host}/api/dogs?${new URLSearchParams({
         offset: String(offset),
+        ...(ownerId ? { ownerId: String(ownerId) } : {}),
       })}`
+    ).then((r) => r.json());
+  }
+
+  async getDog(
+    id: number,
+  ): Promise<Dog | undefined> {
+    return fetch(
+      `${this.host}/api/dogs/${id}`
     ).then((r) => r.json());
   }
 
